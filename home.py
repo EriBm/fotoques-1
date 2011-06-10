@@ -5,7 +5,8 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 class MainPage(webapp.RequestHandler):
     def get(self):
-        userAccount = UserAccount()
+        userAccount = UserAccount(name="Cherny")
+        userAccount.put()
         base = Base()
         album = Album()
         albumTemplate = AlbumTemplate()

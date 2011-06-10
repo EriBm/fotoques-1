@@ -13,15 +13,18 @@ handlers:
 - url: /js
   static_dir: js
   
-- url: /test
-  script: test.py
+- url: /test-useraccount
+  script: tests/UserAccountTest.py
   
-- url: /appengine_admin_media
-  static_dir: appengine_admin/media
-  secure: never 
- 
+- url: /remote_api
+  script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
+  login: admin
+  
 - url: /admin.*
   script: admin.py
 
 - url: /.*
   script: home.py
+  
+builtins:
+- datastore_admin: on
