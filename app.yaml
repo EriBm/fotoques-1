@@ -4,6 +4,10 @@ runtime: python
 api_version: 1
 
 handlers:
+
+- url: /test-useraccount
+  script: tests/UserAccountTest.py
+
 - url: /images
   static_dir: images
   
@@ -16,14 +20,7 @@ handlers:
 - url: /favicon.ico
   static_files: favicon.ico
   upload: favicon.ico
-  
-- url: /test-useraccount
-  script: tests/UserAccountTest.py
-  
-- url: /remote_api
-  script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
-  login: admin
-  
+
 - url: /admin.*
   script: admin.py
 

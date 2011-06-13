@@ -12,21 +12,24 @@ import logging
 
 class Admin(webapp.RequestHandler):
     def get(self):
-        actives = (
-                   'UserAccount',
-                   'Album',
-                   'AlbumTemplate',
-                   )
-        page = {}
-        content = None
+        objects = [
+                   {'name' : 'Home', 'url' : '/admin', 'active' : True},
+                   {'name' : 'User Account', 'url' : '/admin/useraccount', 'form' : UserAccountForm(), 'active' : True},
+                   {'name' : 'Album', 'url' : '/admin/album', 'form' : AlbumForm(), 'active' : True},
+                   {'name' : 'Image', 'url' : '/admin/image', 'form' : ImageForm(), 'active' : True},
+                   {'name' : 'Page', 'url' : '/admin/page', 'form' : PageForm(), 'active' : True},
+                   {'name' : 'Text', 'url' : '/admin/text', 'form' : TextForm(), 'active' : True},
+                   {'name' : 'AlbumTemplate', 'url' : '/admin/albumtemplate', 'form' : AlbumTemplateForm(), 'active' : True},
+                   {'name' : 'ImageTemplate', 'url' : '/admin/imagetemplate', 'form' : ImageTemplateForm(), 'active' : True},
+                   {'name' : 'PageTemplate', 'url' : '/admin/pagetemplate', 'form' : PageTemplateForm(), 'active' : True},
+                   {'name' : 'TextTemplate', 'url' : '/admin/texttemplate', 'form' : TextTemplateForm(), 'active' : True}
+                   ]
         path = self.request.path
-        if path == '/admin/UserAccount':
-            page = {'current' : 'userAccount', 'title' : 'User Account'}
-            content = UserAccountForm()
-        if path == '/admin':
-            page = {'current' : 'home', 'title' : 'Home'}
-            content = 'Home'
-        template_values = {'page' : page, 'content' : content, 'server' : os.environ['SERVER_NAME']}
+        template_values = None
+        for object in objects:
+            if path == object['url']:
+                template_values = object
+                break
         path = os.path.join(os.path.dirname(__file__), 'templates/adminModel.html')
         self.response.out.write(template.render(path, template_values))
         
