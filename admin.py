@@ -12,22 +12,21 @@ import logging
 
 class Admin(webapp.RequestHandler):
     def get(self):
+        actives = (
+                   'UserAccount',
+                   'Album',
+                   'AlbumTemplate',
+                   )
         page = {}
         content = None
-        logging.info(self.request.path[7:])
-        if self.request.path is 'admin' or self.request.path is 'admin/':
-            page = {current : 'home', title : 'Home'}
-        path = self.request.path[7:]
-        logging.info('UserAccount')
-        logging.info(path)
-        if path == 'UserAccount':
-            logging.info('UserAccount')
-            logging.info(path)
-            page = {'current' : 'userAccount', 'title' : 'Home'}
+        path = self.request.path
+        if path == '/admin/UserAccount':
+            page = {'current' : 'userAccount', 'title' : 'User Account'}
             content = UserAccountForm()
-        if not page: # TODO Redirect to NOT_FOUND
-            pass
-        template_values = {'page' : page, 'content' : content}
+        if path == '/admin':
+            page = {'current' : 'home', 'title' : 'Home'}
+            content = 'Home'
+        template_values = {'page' : page, 'content' : content, 'server' : os.environ['SERVER_NAME']}
         path = os.path.join(os.path.dirname(__file__), 'templates/adminModel.html')
         self.response.out.write(template.render(path, template_values))
         
