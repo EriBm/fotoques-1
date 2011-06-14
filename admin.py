@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from models import *
 from forms import *
 import os
@@ -12,6 +14,10 @@ import logging
 
 class Admin(webapp.RequestHandler):
     def get(self):
+        logging.info("------")
+        logging.info(ImageTemplateForm.Meta.widgets)
+        
+        # List of links and their possible form object
         objects = [
                    {'name' : 'Home', 'url' : '/admin', 'active' : True},
                    {'name' : 'User Account', 'url' : '/admin/useraccount', 'form' : UserAccountForm(), 'active' : True},
@@ -24,12 +30,19 @@ class Admin(webapp.RequestHandler):
                    {'name' : 'PageTemplate', 'url' : '/admin/pagetemplate', 'form' : PageTemplateForm(), 'active' : True},
                    {'name' : 'TextTemplate', 'url' : '/admin/texttemplate', 'form' : TextTemplateForm(), 'active' : True}
                    ]
+        # Reduces the size of the objects (just for the viewing stuff)
+        links = [{'name' : object['name'], 'url' : object['url']} for object in objects if object['active']]
+        
+        # Determine which element is called and do something
         path = self.request.path
-        template_values = None
         for object in objects:
+            if not object['active']:
+                continue
             if path == object['url']:
-                template_values = object
+                current = object
                 break
+        server = os.environ['SERVER_NAME'] + str(':' + os.environ['SERVER_PORT']) if os.environ['SERVER_PORT'] != '80' else ''
+        template_values = {'page' : current, 'server' : server, 'links' : links}
         path = os.path.join(os.path.dirname(__file__), 'templates/adminModel.html')
         self.response.out.write(template.render(path, template_values))
         

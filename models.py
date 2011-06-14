@@ -75,6 +75,6 @@ class Text(Base):
     css = db.StringProperty()
     page = db.StringListProperty() # Page references
 
-class TextTemplate():
+class TextTemplate(Text):
     createdBy = db.ReferenceProperty(UserAccount, collection_name='TextTemplateCreated')
     updatedBy = db.ReferenceProperty(UserAccount, collection_name='TextTemplateUpdated')

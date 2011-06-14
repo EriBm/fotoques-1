@@ -1,5 +1,5 @@
 """
-Based in http://framework.zend.com/manual/en/zend.validate.set.html
+Based on http://framework.zend.com/manual/en/zend.validate.set.html
 """
 
 class ValidatorException(Exception):

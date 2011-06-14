@@ -1,0 +1,10 @@
+{% extends "adminBase.html" %}
+{% block title %}Admin - {{ page.name }}{% endblock title %}
+{% block content %}
+{{ content }}
+<h1>{{ page.name }}</h1>
+<form>
+{{ page.form|removetags:"tr th td"|safe  }}
+<input type="submit" value="Ok"/>
+</form>
+{% endblock content %}
